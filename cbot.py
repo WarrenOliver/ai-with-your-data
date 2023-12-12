@@ -13,6 +13,9 @@ from llama_index import GPTVectorStoreIndex, download_loader, ServiceContext, St
 
 from langchain.chat_models import ChatOpenAI
 from llama_index.chat_engine import SimpleChatEngine
+from models import SessionModel
+
+from models import SessionModel, db
 
 service_context = ServiceContext.from_defaults(llm=ChatOpenAI(temperature=0.))
 
@@ -20,6 +23,7 @@ service_context = ServiceContext.from_defaults(llm=ChatOpenAI(temperature=0.))
 __name__ = 'cbot'
 
 openai_api_key = os.environ.get('OPENAI_API_KEY')
+openai.api_key = openai_api_key
 
 clarity_dump = '1pd-7zR65vOvQ-ADWbcX2UGKA2va42LWnRoM1x90Dhcw'
 clarity_dump_p2 = '1V4WAoo1EculvngkPJ11LbVjFJVA6DVERSBqB099Fxq8'
@@ -54,14 +58,46 @@ class Chatbot:
         openai.api_key = api_key
         self.chat_history = []
 
-    def generate_response(self, user_input):
-        prompt = "\n".join([f"{message['role']}: {message['content']}" for message in self.chat_history[:-1]])
-        prompt += "\nPlease refer to the project details mentioned earlier in our conversation to provide accurate answers. " \
-              "If you have any questions regarding those project details, feel free to ask. Be as succint as you can be:  " \
-              f"User: {user_input}"
+    def generate_response(self, user_input, chat_history):
+         # Handle simple responses
+        simple_responses = {
+            "Thanks!": "You're welcome!",
+            "Hello!": "Hi there!",
+            "Hello": "Hi there!",
+            "Hey!": "Hi there!",
+            "Hey": "Hi there!",
+            "hey!": "Hi there!",
+            "Bye!": "Goodbye!",
+            "Bye": "Goodbye!",
+            "bye": "Goodbye!",
+            "bye!": "Goodbye!",
+            "Goodbye!": "Goodbye!",
+            "goodbye!": "Goodbye!",
+            "Goodbye": "Goodbye!",
+            "goodbye": "Goodbye!",
+            
+            # ... any other simple cues you want to handle.
+        }
+        if user_input in simple_responses:
+            return {"role": "Arti", "content": simple_responses[user_input]}
+    
+        
+
+
+
+        
+        chat_history = chat_history
+        
+        # prompt = f"Chat History: here is the chat history but don't answer according to this. It is simply for your context to know what is happening in the conversation: {chat_history}.Say HELLO at the end of each reply and use the following chat history to stay up to date on the context of the conversation: User prompt: {user_input}"
+        # prompt = f"Chat History:\n\n{chat_history}\n\nUser: {user_input}\n\nBot, remember to append 'HELLO' at the end of each response and use the chat history to maintain context."
+        prompt = f"Chat History for Context:\n{chat_history}\n\nMost Recent User Question: {user_input}\n\nBot, use the chat history for context. Respond to the latest question in a conversational manner without referencing previous answers."
+
+        
         
         chat_engine = self.index.as_chat_engine()
         response = chat_engine.chat(prompt)
+        print("prompt: ")
+        print(prompt)
 
         message = {"role": "Arti", "content": response.response}
         self.chat_history.append({"role": "You", "content": user_input})
@@ -73,42 +109,43 @@ class Chatbot:
         self.chat_history.append(message)
 
         return message
-    
-
-    # # load_chat_history function
-    # def load_chat_history(self, filename):
-    #     try:
-    #         with open(filename, 'r') as f:
-    #             self.chat_history = json.load(f)
-    #     except FileNotFoundError:
-    #         pass
-
-    # # save_chat_history function
-    # def save_chat_history(self, filename):
-    #     with open(filename, 'w') as f:
-    #         json.dump(self.chat_history, f)
 
 # END OF CHATBOT CLASS
 
 
-GoogleSheetsReader = download_loader('GoogleSheetsReader')
-gsheet_ids = [md_mc_journals]
-authorize_gsheets()
-loader = GoogleSheetsReader()
-documents = loader.load_data(spreadsheet_ids=gsheet_ids)
-index = GPTVectorStoreIndex.from_documents(documents)
-model_id = 'gpt-3.5-turbo'
-bot = Chatbot(openai_api_key, index=index, model_id=model_id)
 
 # GETTING ANSWERS FUNCTION
-def get_response():
-    while True:
-        prompt = request.form.get('arti-prompt')
-        response = bot.generate_response(prompt)
-        response = list(str(response["content"]).split('\n'))   
-        
-        print("printing chat history: ")
-        print(bot.chat_history)
-        return bot.chat_history
+def get_response(session_id):
+    
+    GoogleSheetsReader = download_loader('GoogleSheetsReader')
+    gsheet_ids = [md_mc_journals]
+    authorize_gsheets()
+    loader = GoogleSheetsReader()
+    documents = loader.load_data(spreadsheet_ids=gsheet_ids)
+    index = GPTVectorStoreIndex.from_documents(documents)
+    model_id = 'gpt-3.5-turbo'
+    # model_id = 'text-davinci-002'
+    bot = Chatbot(openai_api_key, index=index, model_id=model_id)
 
-        
+    user_input = request.form.get('arti-prompt')
+    # Fetch current session from the database using hte session_id
+    current_session = SessionModel.query.filter_by(session_id=session_id).first()
+    chat_memory = current_session.chat_memory
+    
+    
+    # Append user message to chat_memory
+    chat_memory += f"User: {user_input}\n"
+
+    # Get chatbot's response
+    response = bot.generate_response(user_input, chat_memory)
+    response = response["content"]
+    # response = list(str(response["content"]).split('\n'))
+    
+    
+    # Append chatbot's response to chat_memory
+    chat_memory += f"Chatbot: {response}\n"
+    # Update the chat_memory in the database
+    current_session.chat_memory = chat_memory
+    db.session.commit()
+    
+    return response
