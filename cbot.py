@@ -22,12 +22,10 @@ service_context = ServiceContext.from_defaults(llm=ChatOpenAI(temperature=0.))
 
 __name__ = 'cbot'
 
+md_mc_journals = '1eM6Nv9wAkkKARstZClnCfoL7K3fGioPHNdOGCJgDlQY'
+
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 openai.api_key = openai_api_key
-
-clarity_dump = '1pd-7zR65vOvQ-ADWbcX2UGKA2va42LWnRoM1x90Dhcw'
-clarity_dump_p2 = '1V4WAoo1EculvngkPJ11LbVjFJVA6DVERSBqB099Fxq8'
-md_mc_journals = '1eM6Nv9wAkkKARstZClnCfoL7K3fGioPHNdOGCJgDlQY'
 
 def is_file_empty(file_path):
     return os.path.getsize(file_path) == 0
