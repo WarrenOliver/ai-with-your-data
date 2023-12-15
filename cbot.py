@@ -9,7 +9,7 @@ from flask import request
 from google.auth.transport.requests import Request
 
 from google_auth_oauthlib.flow import InstalledAppFlow
-from llama_index import GPTVectorStoreIndex, download_loader, ServiceContext, StorageContext, load_index_from_storage
+from llama_index import GPTVectorStoreIndex, VectorStoreIndex, download_loader, ServiceContext, StorageContext, load_index_from_storage
 
 from langchain.chat_models import ChatOpenAI
 from llama_index.chat_engine import SimpleChatEngine
@@ -22,17 +22,15 @@ service_context = ServiceContext.from_defaults(llm=ChatOpenAI(temperature=0.))
 
 __name__ = 'cbot'
 
-md_mc_journals = '1eM6Nv9wAkkKARstZClnCfoL7K3fGioPHNdOGCJgDlQY'
-
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 openai.api_key = openai_api_key
 
 def is_file_empty(file_path):
     return os.path.getsize(file_path) == 0
 
-def authorize_gsheets():
+def authorize_gdocs():
     google_oauth2_scopes = [
-        "https://www.googleapis.com/auth/spreadsheets.readonly"
+        "https://www.googleapis.com/auth/documents.readonly"
     ]
     cred = None
     if os.path.exists("token.pickle"):
@@ -74,20 +72,15 @@ class Chatbot:
             "Goodbye": "Goodbye!",
             "goodbye": "Goodbye!",
             
-            # ... any other simple cues you want to handle.
+            # ... any other simple cues I may want to handle.
         }
         if user_input in simple_responses:
             return {"role": "Arti", "content": simple_responses[user_input]}
     
         
 
-
-
         
         chat_history = chat_history
-        
-        # prompt = f"Chat History: here is the chat history but don't answer according to this. It is simply for your context to know what is happening in the conversation: {chat_history}.Say HELLO at the end of each reply and use the following chat history to stay up to date on the context of the conversation: User prompt: {user_input}"
-        # prompt = f"Chat History:\n\n{chat_history}\n\nUser: {user_input}\n\nBot, remember to append 'HELLO' at the end of each response and use the chat history to maintain context."
         prompt = f"Chat History for Context:\n{chat_history}\n\nMost Recent User Question: {user_input}\n\nBot, use the chat history for context. Respond to the latest question in a conversational manner without referencing previous answers."
 
         
@@ -115,12 +108,13 @@ class Chatbot:
 # GETTING ANSWERS FUNCTION
 def get_response(session_id):
     
-    GoogleSheetsReader = download_loader('GoogleSheetsReader')
-    gsheet_ids = [md_mc_journals]
-    authorize_gsheets()
-    loader = GoogleSheetsReader()
-    documents = loader.load_data(spreadsheet_ids=gsheet_ids)
-    index = GPTVectorStoreIndex.from_documents(documents)
+    GoogleDocsReader = download_loader('GoogleDocsReader')
+    authorize_gdocs()
+    gdoc_ids = ['1AnRlUK8yUY9EkbfHzHHEJ_3SgAM5PcAFLFojyLN8J5I']
+    loader = GoogleDocsReader()
+    documents = loader.load_data(document_ids=gdoc_ids)
+    # index = GPTVectorStoreIndex.from_documents(documents)
+    index = VectorStoreIndex.from_documents(documents)
     model_id = 'gpt-3.5-turbo'
     # model_id = 'text-davinci-002'
     bot = Chatbot(openai_api_key, index=index, model_id=model_id)

@@ -98,5 +98,5 @@ def page_not_found(e):
 # running the Flask app
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all() # Create the database tables if they don't exist
-    app.run(debug=True)
+        db.create_all()  # Create the database tables if they don't exist
+    app.run(debug=True, port=3000)
