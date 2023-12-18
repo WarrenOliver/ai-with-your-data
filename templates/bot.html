@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - Page Not Found</title>
+  <title>AI With Your Data</title>
   <!-- Favicon -->
   <link rel="shortcut icon" href="static/styles/img/chatbot.png">
   <!-- Stylesheet -->
@@ -12,25 +12,28 @@
 <body>
   <header>
     <nav>
-      <div class="logo">
-        <a href="https://harbingermarketing.com/" target="_blank"><img src="static/styles/img/logo-pixel.png" alt="Logo"></a>
-      </div>
       <ul class="navigation">
-        <li><a href="https://warrenoliver.github.io/" target="_blank">Portfolio Website</a></li>
         <li><a href="https://www.linkedin.com/in/warren-oliver/" target="_blank">LinkedIn</a></li>
+        <li><a href="https://warrenoliver.github.io/" target="_blank">My Portfolio</a></li>
         <li><a href="https://github.com/WarrenOliver#" target="_blank">GitHub</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <div class="error-section">
-        <h1 class="error-code">404</h1>
-        <p class="error-message">Oops! Page not found</p>
-    </div>
+    
+    <p class="hello-arti">Ask the bot a question</p>
+    <form method="post">
+        <div class="search-bar">
+          <input type="text" class="search-input" name="arti-prompt" placeholder="Ask me anything" required>
+          <button type="submit">Send</button>
+        </div>
+    </form>
+
+    <!-- text-section  -->
+    <div class="answers no-bullet">
+        <h3> {{ answer_text }}{{ response }}</h3>
+      </div>
   </main>
-  <footer>
-    <a href="/" class="home-link">Back to Home</a>
-  </footer>
 </body>
 </html>

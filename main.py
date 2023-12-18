@@ -21,8 +21,7 @@ def home():
     session = SessionModel.query.filter_by(session_id=session_id).first()
     if session and not session.is_expired():
         # Session exists, show dashboard
-        # return render_template('arti.html', session=session)
-        return redirect(url_for('arti'))
+        return redirect(url_for('bot'))
     else:
         # No session exists, redirect to login
         return redirect(url_for('login'))
@@ -67,9 +66,9 @@ def generate_session_id():
     return str(datetime.now().timestamp())
 
 
-# Arti Chatbot route
-@app.route('/arti', methods=['GET', 'POST'])
-def arti():
+#  Chatbot route
+@app.route('/bot', methods=['GET', 'POST'])
+def bot():
     session_id = request.cookies.get('session_id')
     session = SessionModel.query.filter_by(session_id=session_id).first()
     
@@ -78,10 +77,10 @@ def arti():
             session_id = request.cookies.get('session_id')
             answer_text = "➜ "
             response = get_response(session_id)
-            return render_template("arti.html", answer_text=answer_text, session_id=session_id, response=response)
+            return render_template("bot.html", answer_text=answer_text, session_id=session_id, response=response)
 
         else:
-            return render_template('arti.html')
+            return render_template('bot.html')
     else:
         # session_id = request.cookies.get('session_id')
         # session_to_delete = SessionModel.query.filter_by(session_id=session_id).first()
