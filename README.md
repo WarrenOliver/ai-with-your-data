@@ -53,7 +53,7 @@ Ensure you have the following installed:
 
 1. Run the Application
     ```
-    python app.py
+    python main.py
     ```
 
 
