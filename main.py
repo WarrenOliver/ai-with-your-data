@@ -93,7 +93,6 @@ def bot():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    # Use a custom template for the 404 page
     return render_template('404.html'), 404
 
 
@@ -101,4 +100,6 @@ def page_not_found(e):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Create the database tables if they don't exist
-    app.run(debug=True, port=3000)
+    # app.run(debug=True, port=3000)
+    app.run()
+
