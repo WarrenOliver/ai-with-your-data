@@ -22,10 +22,10 @@
 
   <main>
     
-    <p class="hello-arti">Ask the bot a question</p>
+    <p class="hello-bot">Ask the bot a question</p>
     <form method="post">
         <div class="search-bar">
-          <input type="text" class="search-input" name="arti-prompt" placeholder="Ask me anything" required>
+          <input type="text" class="search-input" name="bot-prompt" placeholder="Ask me anything" required>
           <button type="submit">Send</button>
         </div>
     </form>
@@ -35,5 +35,16 @@
         <h3> {{ answer_text }}{{ response }}</h3>
       </div>
   </main>
+
+  <form action="/logout" method="post">
+    <button type="submit" class="logout-button">
+      Logout
+      <span class="tooltip">Logs you out of your session and deletes stored conversational data</span>
+    </button>
+  </form>
+  
+  
+
+
 </body>
 </html>

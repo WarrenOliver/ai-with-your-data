@@ -4,7 +4,7 @@ body, h1, h2, p, ul, li {
   padding: 0;
   }
   
-  /* Page styling */
+
   body {
     background-color: #1f1f1f;
     color: #d3d3d3;
@@ -53,7 +53,6 @@ nav {
   }
   
   .navigation li a {
-    /* color: #d3d3d3; */
     color: limegreen;
     text-decoration: none;
   }
@@ -141,7 +140,7 @@ input::placeholder {
   color: rgba(255, 255, 255, 0.651);
 }
 
-.hello-arti {
+.hello-bot {
   text-align: center;
   margin-top: 50px;
   font-size: 3rem;
@@ -149,22 +148,21 @@ input::placeholder {
   color: white;
 }
 
-
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none;
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  display: flex; /* Use Flexbox */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Modal Content/Box */
@@ -173,11 +171,11 @@ input::placeholder {
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Add shadows for 3D effect */
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: animatetop;
   animation-duration: 0.4s;
-  border-radius: 8px; /* Rounded corners */
+  border-radius: 8px;
 }
 
 .btn-login {
@@ -193,7 +191,6 @@ input::placeholder {
 
 .btn-login:hover {
   background: rgb(37, 195, 37);
-  /* transform: translate(0px, .5px); */
 }
 
 .error-section {
@@ -224,7 +221,6 @@ input::placeholder {
   text-decoration: underline;
 }
 
-/* Add Animation */
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
@@ -244,15 +240,14 @@ input::placeholder {
     padding: -10rem;
   }
 
-  .navigation {
+  /* .navigation {
     visibility: hidden;
-  }
+  } */
 
   .navigation li {
     margin-left: 10px;
   }
 
-  /* Adjust main content styles for mobile */
   .error-section {
     margin-top: 50px;
   }
@@ -265,18 +260,11 @@ input::placeholder {
     font-size: 20px;
   }
 
-  /* Adjust footer styles for mobile */
   .home-link {
     margin-top: 20px;
     font-size: 18px;
   }
 
-  /* Adjust beta version styles for mobile */
-  .beta-version {
-    bottom: 5px;
-    font-size: 10px;
-  }
-   /* Adjust main content styles for mobile */
    .error-section {
     margin-top: 20px;
 }
@@ -290,25 +278,18 @@ input::placeholder {
       margin-top: 15px;
   }
 
-  /* Adjust footer styles for mobile */
   .home-link {
       margin-top: 30px;
       font-size: 16px;
   }
 
-  /* Adjust beta version styles for mobile */
-  .beta-version {
-      bottom: 5px;
-      font-size: 10px;
-  }
-   /* Adjust main content styles for mobile */
    .main {
-    padding: 0 10px; /* Adjust padding for mobile */
+    padding: 0 10px;
   }
 
   .error-section {
       margin-top: 20px;
-      padding: 0 10px; /* Additional padding if needed */
+      padding: 0 10px;
   }
 
   .error-code {
@@ -319,9 +300,9 @@ input::placeholder {
       font-size: 18px;
       margin-top: 15px;
   }
-  .hello-arti {
-    font-size: 1.5rem; /* Smaller font size for mobile */
-    margin-bottom: 15px; /* Adjusted spacing */
+  .hello-bot {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
 }
 
   .search-input {
@@ -329,6 +310,93 @@ input::placeholder {
   }
 
   .search-bar button {
-    padding: 8px 15px; /* Adjusted padding for mobile */
+    padding: 8px 15px;
   }
+}
+
+.logout-button {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 10px;
+  padding: 10px 20px;
+  background-color: #f44336; /* Red color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  overflow: visible; /* Ensure the tooltip is not cut off */
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Tooltip styling */
+.tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.logout-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Login Form Styles */
+.login-container {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.login-form .form-field {
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: limegreen;
+}
+
+.login-input {
+  width: 88%;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #222;
+  color: #d3d3d3;
+  font-size: 14px;
+}
+
+.login-button {
+  background-color: limegreen;
+  color: #222;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.login-button:hover {
+  background-color: #4cae4c;
 }

@@ -4,14 +4,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 from cbot import get_response
 from models import SessionModel, db
+import os
 
 app = Flask(__name__)
 
+login_password = os.environ.get('LOGIN_PASSWORD')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sessions.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'xyz' ## CHANGE THIS TO SOMETHING SECURE ##
 db.init_app(app)
+
+LOGIN_PASSWORD_HASH = generate_password_hash(login_password)
 
 # home route
 @app.route('/')
@@ -30,22 +34,25 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session_id = generate_session_id()  # Generate a unique session ID
-        chat_memory = ''  # Set initial chat memory
+        password = request.form.get('password')
+        if check_password_hash(LOGIN_PASSWORD_HASH, password):
+            session_id = generate_session_id()
+            chat_memory = ''
 
-        session = SessionModel(session_id=session_id, chat_memory=chat_memory)
-        db.session.add(session)
-        db.session.commit()
+            session = SessionModel(session_id=session_id, chat_memory=chat_memory)
+            db.session.add(session)
+            db.session.commit()
 
-        # Set session ID as a cookie
-        response = redirect(url_for('home'))
-        response.set_cookie('session_id', session_id)
-        return response
+            response = redirect(url_for('home'))
+            response.set_cookie('session_id', session_id)
+            return response
+        else:
+            return render_template('login.html', error="Invalid password")
     else:
         return render_template('login.html')
 
 # logout route
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session_id = request.cookies.get('session_id')
     session = SessionModel.query.filter_by(session_id=session_id).first()
@@ -82,10 +89,6 @@ def bot():
         else:
             return render_template('bot.html')
     else:
-        # session_id = request.cookies.get('session_id')
-        # session_to_delete = SessionModel.query.filter_by(session_id=session_id).first()
-        # db.session.delete(session_to_delete)
-        # db.session.commit()
         return redirect(url_for('home'))
 
 @app.errorhandler(404)

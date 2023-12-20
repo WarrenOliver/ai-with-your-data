@@ -75,7 +75,7 @@ class Chatbot:
             # ... any other simple cues I may want to handle.
         }
         if user_input in simple_responses:
-            return {"role": "Arti", "content": simple_responses[user_input]}
+            return {"role": "Bot", "content": simple_responses[user_input]}
     
         
 
@@ -90,7 +90,7 @@ class Chatbot:
         print("prompt: ")
         print(prompt)
 
-        message = {"role": "Arti", "content": response.response}
+        message = {"role": "Bot", "content": response.response}
         self.chat_history.append({"role": "You", "content": user_input})
 
         if len(self.chat_history) > chat_history_length:
@@ -113,14 +113,12 @@ def get_response(session_id):
     gdoc_ids = ['1AnRlUK8yUY9EkbfHzHHEJ_3SgAM5PcAFLFojyLN8J5I']
     loader = GoogleDocsReader()
     documents = loader.load_data(document_ids=gdoc_ids)
-    # index = GPTVectorStoreIndex.from_documents(documents)
     index = VectorStoreIndex.from_documents(documents)
     model_id = 'gpt-3.5-turbo'
-    # model_id = 'text-davinci-002'
     bot = Chatbot(openai_api_key, index=index, model_id=model_id)
 
-    user_input = request.form.get('arti-prompt')
-    # Fetch current session from the database using hte session_id
+    user_input = request.form.get('bot-prompt')
+    # Fetch current session from the database using the session_id
     current_session = SessionModel.query.filter_by(session_id=session_id).first()
     chat_memory = current_session.chat_memory
     

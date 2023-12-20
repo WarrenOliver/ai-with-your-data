@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arti Chat Bot</title>
+  <title>AI With Your Data</title>
   <!-- Favicon -->
   <link rel="shortcut icon" href="static/styles/img/chatbot.png">
   <!-- Stylesheet -->
@@ -12,24 +12,32 @@
 <body>
   <header>
     <nav>
-      <div class="logo">
-        <a href="https://harbingermarketing.com/" target="_blank"><img src="static/styles/img/logo-pixel.png" alt="Logo"></a>
-        
-      </div>
       <ul class="navigation">
-        <li><a href="https://warrenoliver.github.io/" target="_blank">Portfolio Website</a></li>
         <li><a href="https://www.linkedin.com/in/warren-oliver/" target="_blank">LinkedIn</a></li>
+        <li><a href="https://warrenoliver.github.io/" target="_blank">My Portfolio</a></li>
         <li><a href="https://github.com/WarrenOliver#" target="_blank">GitHub</a></li>
       </ul>
     </nav>
   </header>
 
+ 
   <main>
-    <form method="post">
-      <!-- <input style="visibility: hidden;" type="text" name="invisifield" placeholder="invisible field"> -->
-      <button type="submit" class="btn-login">Chat with Arti</button>
-    </form>
+    <div class="login-container">
+      <form action="/login" method="post" class="login-form">
+        <div class="form-field">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" class="login-input">
+        </div>
+        <button type="submit" class="login-button">Chat with my bot!</button>
+      </form>
+    </div>
+
+    <div class="explanation-container">
+      <h1>What is this about?</h1>
+      <p>Give explanation of how this works and what questions can be asked of the data</p>
+      <p>Also, link the documen with a view-only link so users can compare the answers they get from the bot with the document</p>
+    </div>
+
   </main>
-
-
 </body>
+</html>
