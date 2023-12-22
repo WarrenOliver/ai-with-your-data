@@ -4,3 +4,4 @@ credentials.py
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 DEPLOY.md
+venv/
