@@ -3,5 +3,7 @@ credentials.py
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Random files
 DEPLOY.md
 venv/
