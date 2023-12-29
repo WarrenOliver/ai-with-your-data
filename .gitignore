@@ -7,3 +7,7 @@ credentials.py
 # Random files
 DEPLOY.md
 venv/
+
+token.json
+token.pickle
+credentials.json
