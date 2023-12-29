@@ -11,7 +11,7 @@ Welcome to the `ai-with-your-data`! This web application, built using Python, is
 - **MySQL Database Integration**: Robust data storage and management with MySQL.
 
 #### Example Usage - [website](https://github.com/WarrenOliver/ai-with-your-data.git)
-- Password: `Nvv&BRM#pWx&2CD6VQm$9`
+- Here's the Password: `Nvv&BRM#pWx&2CD6VQm$9`
 
 ## Getting Started
 
