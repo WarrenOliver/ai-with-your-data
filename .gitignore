@@ -1,4 +1,6 @@
 credentials.py
+credentials.json
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
@@ -10,4 +12,3 @@ venv/
 
 token.json
 token.pickle
-credentials.json
