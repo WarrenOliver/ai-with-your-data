@@ -16,7 +16,7 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 EXPOSE 5000
 
 # Define environment variable
-ENV FLASK_APP=main.py
+ENV FLASK_APP=application.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Run your_flask_app.py when the container launches
