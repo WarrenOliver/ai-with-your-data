@@ -10,7 +10,7 @@ Welcome to the `ai-with-your-data`! This web application, built using Python, is
 - **User-Friendly Interface**: Simple and intuitive web interface for easy interaction with the AI bot.
 - **MySQL Database Integration**: Robust data storage and management with MySQL.
 
-#### Example Usage - [website](https://github.com/WarrenOliver/ai-with-your-data.git)
+#### Example Usage - [Check out the sample Website](https://ai-with-your-data-c168d195d2d8.herokuapp.com/bot)
 - Here's the Password: `Nvv&BRM#pWx&2CD6VQm$9`
 
 ## Getting Started
