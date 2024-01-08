@@ -13,6 +13,8 @@ Welcome to the `ai-with-your-data`! This web application, built using Python, is
 #### Example Usage - [Check out the sample Website](https://ai-with-your-data-c168d195d2d8.herokuapp.com/bot)
 - Here's the Password: `Nvv&BRM#pWx&2CD6VQm$9`
 
+- In the example, the data being indexed by the bot comes from this document: https://docs.google.com/document/d/1AnRlUK8yUY9EkbfHzHHEJ_3SgAM5PcAFLFojyLN8J5I
+
 ## Getting Started
 
 ### Prerequisites
