@@ -12,7 +12,7 @@ login_password = os.environ.get('LOGIN_PASSWORD')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sessions.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'xyz' ## CHANGE THIS TO SOMETHING SECURE ##
+app.config['SECRET_KEY'] = 'xyz'
 db.init_app(app)
 
 LOGIN_PASSWORD_HASH = generate_password_hash(login_password)
@@ -99,5 +99,5 @@ def page_not_found(e):
 # running the Flask app
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Create the database tables if they don't exist
+        db.create_all()
     app.run(debug=True, port=5000)
